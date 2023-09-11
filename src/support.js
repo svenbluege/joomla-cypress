@@ -94,7 +94,7 @@ const supportCommands = () => {
 
     cy.document().then((doc) => {
       const pageSource = doc.documentElement.innerHTML
-      const regex = /<b>Warning<\/b>:|<b>Deprecated<\/b>:|<b>Notice<\/b>:|<b>Strict standards<\/b>:/
+      const regex = /xe-deprecated|<b>Warning<\/b>:|<b>Deprecated<\/b>:|<b>Notice<\/b>:|<b>Strict standards<\/b>:/
       expect(regex.test(pageSource)).to.equal(false)
     })
 
