@@ -81,6 +81,9 @@ const extensionsCommands = () => {
 
     cy.get('#cb0').click()
     cy.clickToolbarButton('delete')
+
+    cy.get('joomla-dialog.joomla-dialog-confirm .joomla-dialog-footer button.button-primary').click()
+
     cy.get('#system-message-container').contains('was successful')
 
     // Check for warnings during install
