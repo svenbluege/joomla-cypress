@@ -120,7 +120,8 @@ const joomlaCommands = () => {
     cy.get('#defaultLanguagesButton').click()
     cy.get('#system-message-container .alert-message').should('have.length', 2)
 
-    cy.get('.complete-installation').click()
+    cy.get('button.complete-installation').first().click()
+
 
 
     cy.log('Joomla is now installed')
