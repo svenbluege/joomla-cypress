@@ -122,7 +122,7 @@ const joomlaCommands = () => {
 
     cy.get('button.complete-installation').first().click()
 
-	cy.visit('installation/index.php?task=installation.removeFolder&format=json')
+	cy.visit('installation/index.php?task=installation.removeFolder&format=json', {method:'POST'})
 
     cy.log('Joomla is now installed')
 
