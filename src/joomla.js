@@ -10,7 +10,7 @@ const joomlaCommands = () => {
     cy.get('#jform_language').should('be.visible')
 
     // Select en-GB as installation language
-    cy.get('#jform_language').select('English (United Kingdom)')
+    cy.get('#jform_language').select('en-GB')
     cy.get('#jform_language-lbl').should('contain', 'Select Language')
 
     // Fill Sitename
@@ -49,15 +49,24 @@ const joomlaCommands = () => {
 
   Cypress.Commands.add('installJoomla', installJoomla)
 
+  
+  // Cancel Tour
+  const cancelTour = () => {
+    cy.log('**Cancel Tour**')
+
+    cy.get('.shepherd-cancel-icon', { timeout: 40000 }).should('exist').click()
+
+    cy.log('--Cancel Tour--')
+  }
+
+  Cypress.Commands.add('cancelTour', cancelTour)
+
 
   // Disable Statistics
   const disableStatistics = () => {
     cy.log('**Disable Statistics**')
 
-
-    cy.intercept('index.php?option=com_ajax&group=system&plugin=sendNever&format=raw').as('stopping_stats')
-    cy.get('.js-pstats-btn-allow-never').click()
-    cy.wait('@stopping_stats')
+    cy.get('.js-pstats-btn-allow-never', { timeout: 40000 }).should('be.visible').click()
 
     cy.log('--Disable Statistics--')
   }
@@ -120,9 +129,20 @@ const joomlaCommands = () => {
     cy.get('#defaultLanguagesButton').click()
     cy.get('#system-message-container .alert-message').should('have.length', 2)
 
-    cy.get('button.complete-installation').first().click()
+    // delete installation
+    cy.get('body').then((body) => {
+      // Joomla 5: check element with ID 'removeInstallationFolder' exists
+      if (body.find('#removeInstallationFolder').length > 0) {
+        cy.get('#removeInstallationFolder').click()
+      } else {
+        // Joomla 4: simple click 1st button to complete installation and delete installation folder
+        cy.get('.complete-installation').eq(0).click()
+      }
+    });
 
-
+    // check installation is no more available
+    cy.visit("/installation", { failOnStatusCode: false }); // prevent Cypress from failing
+    cy.title().should("include", "404"); // page title have to contain 404
 
     cy.log('Joomla is now installed')
 
