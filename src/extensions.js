@@ -79,6 +79,9 @@ const extensionsCommands = () => {
     cy.get('#system-message-container .alert').should('not.exist')
 
     cy.get('#cb0').click()
+    
+    // Click on Actions to make menu entry Publish visible
+    cy.get('#toolbar-status-group').click()
     cy.clickToolbarButton('delete')
     cy.get('.joomla-dialog-confirm button.button-primary').click()
     cy.checkForSystemMessage('was successful')
