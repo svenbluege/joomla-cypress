@@ -63,7 +63,7 @@ const supportCommands = () => {
         break
       case "empty trash":
       case "delete":
-        cy.get("#toolbar-delete").click()
+        cy.get("#status-group-children-delete").click()
         break
       case "feature":
         cy.get("#status-group-children-featured").click()
